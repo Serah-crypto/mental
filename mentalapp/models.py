@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 
 
@@ -7,20 +9,27 @@ from django.utils import timezone
 #  USER PROFILE
 # ─────────────────────────────────────────────
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    bio = models.TextField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    user          = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    bio           = models.TextField(blank=True, null=True)
+    avatar        = models.ImageField(upload_to='avatars/', blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
-    location = models.CharField(max_length=120, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    location      = models.CharField(max_length=120, blank=True)
+    created_at    = models.DateTimeField(auto_now_add=True)
+    updated_at    = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'User Profile'
+        verbose_name        = 'User Profile'
         verbose_name_plural = 'User Profiles'
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
+
+
+# FIX: Auto-create profile when a new User is created via signal
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.get_or_create(user=instance)
 
 
 # ─────────────────────────────────────────────
@@ -89,15 +98,15 @@ class Checklist(models.Model):
     date = models.DateField(default=timezone.now)
 
     # Body
-    slept_well       = models.BooleanField(default=False)
-    exercised        = models.BooleanField(default=False)
-    ate_well         = models.BooleanField(default=False)
-    stayed_hydrated  = models.BooleanField(default=False)
+    slept_well      = models.BooleanField(default=False)
+    exercised       = models.BooleanField(default=False)
+    ate_well        = models.BooleanField(default=False)
+    stayed_hydrated = models.BooleanField(default=False)
 
     # Mind
-    meditated        = models.BooleanField(default=False)
-    journaled        = models.BooleanField(default=False)
-    limited_screens  = models.BooleanField(default=False)
+    meditated       = models.BooleanField(default=False)
+    journaled       = models.BooleanField(default=False)
+    limited_screens = models.BooleanField(default=False)
 
     # Social
     connected_others = models.BooleanField(default=False)

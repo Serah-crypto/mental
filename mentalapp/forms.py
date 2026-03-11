@@ -1,4 +1,3 @@
-
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -16,6 +15,12 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model  = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("A user with this email already exists.")
+        return email
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -46,6 +51,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ['bio', 'avatar', 'date_of_birth', 'location']
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'bio':           forms.Textarea(attrs={'rows': 4}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -96,20 +102,18 @@ class JournalForm(forms.ModelForm):
 
 # ─────────────────────────────────────────────
 #  CHECKLIST FORM
+#  FIX: 'date' removed from fields — it is set automatically
+#       in the view via get_or_create(date=today)
 # ─────────────────────────────────────────────
 class ChecklistForm(forms.ModelForm):
     class Meta:
         model  = Checklist
         fields = [
-            'date',
             'slept_well', 'exercised', 'ate_well', 'stayed_hydrated',
             'meditated', 'journaled', 'limited_screens',
             'connected_others', 'set_boundaries',
             'spent_time_outside', 'expressed_gratitude',
         ]
-        widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
-        }
 
 
 # ─────────────────────────────────────────────

@@ -1,5 +1,5 @@
 # ================================================================
-# mentalapp/views.py
+#  mentalapp/views.py
 # ================================================================
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -63,6 +63,8 @@ def contact(request):
 
 # ── AUTHENTICATION ─────────────────────────────────────────────
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('mentalapp:dashboard')
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -76,21 +78,29 @@ def register_view(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('mentalapp:dashboard')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            next_url = request.GET.get('next', 'mentalapp:dashboard')
-            return redirect(next_url)
+            # FIX: next_url must be a path, not a named URL string
+            next_url = request.GET.get('next') or request.POST.get('next')
+            if next_url:
+                return redirect(next_url)
+            return redirect('mentalapp:dashboard')
         else:
             messages.error(request, "Invalid username or password.")
-    return render(request, 'mentalapp/login.html')
+    return render(request, 'mentalapp/login.html', {'next': request.GET.get('next', '')})
 
 
 def logout_view(request):
-    logout(request)
+    # FIX: Only allow POST logout to prevent CSRF/logout attacks
+    if request.method == 'POST':
+        logout(request)
+        return redirect('mentalapp:home')
     return redirect('mentalapp:home')
 
 
