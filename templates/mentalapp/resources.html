@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resources &amp; Help — MindWell</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--sage:#4a7c6f;--sage-lt:#6fada0;--cream:#f5f0e8;--warm:#e8c98a;--blush:#e8a598;--deep:#1c2b28;--text:#2d3d39;--muted:#6b7c78}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+    h1,h2,h3,h4,h5{font-family:'Playfair Display',serif}
+    .navbar{background:var(--deep)!important;padding:.9rem 2rem;position:sticky;top:0;z-index:1000;border-bottom:1px solid rgba(255,255,255,.06)}
+    .navbar-brand{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--warm)!important}
+    .nav-link{color:rgba(255,255,255,.72)!important;font-size:.87rem;padding:.42rem .85rem!important;border-radius:8px;transition:all .25s}
+    .nav-link:hover,.nav-link.active-page{color:var(--warm)!important;background:rgba(255,255,255,.07)}
+    .btn-nav-login{border:1.5px solid rgba(255,255,255,.3);color:#fff;background:transparent;padding:.4rem 1.2rem;border-radius:50px;font-size:.84rem;transition:all .25s;text-decoration:none;display:inline-block}
+    .btn-nav-login:hover{background:rgba(255,255,255,.08);color:#fff}
+    .btn-nav-reg{background:var(--sage);color:#fff;border:none;padding:.4rem 1.2rem;border-radius:50px;font-size:.84rem;transition:all .25s;text-decoration:none;display:inline-block}
+    .btn-nav-reg:hover{background:var(--sage-lt);color:#fff}
+    .section-label{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:.5rem;display:block}
+    .section-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.2;color:var(--deep)}
+    .btn-sage{background:var(--sage);border:none;color:#fff;padding:.72rem 2rem;border-radius:50px;font-size:.93rem;font-weight:500;transition:all .25s;text-decoration:none;display:inline-block}
+    .btn-sage:hover{background:var(--sage-lt);color:#fff;transform:translateY(-2px)}
+    .btn-outline-w{border:1.5px solid rgba(255,255,255,.4);color:#fff;background:transparent;padding:.72rem 1.8rem;border-radius:50px;font-size:.93rem;transition:all .25s;text-decoration:none;display:inline-block}
+    .btn-outline-w:hover{background:rgba(255,255,255,.1);color:#fff}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    .page-hero{background:linear-gradient(135deg,var(--deep) 0%,#2a4a42 60%,var(--sage) 100%);padding:80px 0 70px;position:relative;overflow:hidden}
+    .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 80% 30%,rgba(111,173,160,.2) 0%,transparent 70%)}
+    .badge-pill{display:inline-block;background:rgba(232,201,138,.18);border:1px solid rgba(232,201,138,.45);color:var(--warm);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .9rem;border-radius:50px;margin-bottom:1.2rem}
+    .page-hero h1{color:#fff;font-size:clamp(2rem,5vw,3.4rem);font-weight:900;line-height:1.1}
+    .page-hero p{color:rgba(255,255,255,.7);font-size:1.05rem;max-width:560px;line-height:1.75;margin-top:.9rem}
+
+    #resources{padding:90px 0;background:#f0ebe0}
+    .resource-card{background:#fff;border-radius:16px;padding:1.8rem;border-left:4px solid var(--sage);height:100%;transition:all .3s}
+    .resource-card:hover{box-shadow:0 10px 32px rgba(74,124,111,.15);transform:translateX(4px)}
+    .resource-card .res-tag{display:inline-block;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;background:rgba(74,124,111,.1);color:var(--sage);border-radius:50px;padding:.15rem .6rem;margin-bottom:.6rem}
+    .resource-card h6{color:var(--deep);font-weight:600;margin-bottom:.5rem;font-size:1rem}
+    .resource-card p{font-size:.88rem;color:var(--muted);margin:0;line-height:1.65}
+
+    #crisis{background:var(--deep);padding:80px 0}
+    .hotline-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:2rem;text-align:center;transition:all .3s}
+    .hotline-card:hover{background:rgba(111,173,160,.18);border-color:var(--sage-lt)}
+    .hotline-card .number{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:var(--warm);margin:.5rem 0;word-break:break-all}
+    .hotline-card .country{font-size:.78rem;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase}
+    .hotline-card p{color:rgba(255,255,255,.6);font-size:.83rem;margin:.4rem 0 0;line-height:1.5}
+
+    #apps{background:var(--cream);padding:80px 0}
+    .app-item{background:#fff;border-radius:16px;padding:1.5rem;border:1px solid rgba(74,124,111,.1);display:flex;gap:1rem;align-items:flex-start;transition:all .3s}
+    .app-item:hover{box-shadow:0 8px 28px rgba(74,124,111,.12);transform:translateY(-3px)}
+    .app-icon{width:50px;height:50px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+    .app-item h6{color:var(--deep);margin-bottom:.2rem;font-size:.97rem}
+    .app-item p{color:var(--muted);font-size:.85rem;margin:0;line-height:1.55}
+
+    #final{background:#f0ebe0;padding:80px 0}
+    .final-card{background:linear-gradient(135deg,var(--deep),#1a3d35);border-radius:24px;padding:4rem 3rem;text-align:center;color:#fff}
+
+    footer{background:var(--deep);color:rgba(255,255,255,.5);padding:3rem 0;font-size:.85rem;text-align:center}
+    footer a{color:var(--warm);text-decoration:none}
+    .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;margin:1rem 0}
+    #backTop{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--sage);color:#fff;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 16px rgba(74,124,111,.4);opacity:0;pointer-events:none;transition:opacity .3s;border:none}
+    #backTop.show{opacity:1;pointer-events:all}
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">🌿 MindWell</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon" style="filter:invert(1)"></span></button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="conditions.html">Conditions</a></li>
+        <li class="nav-item"><a class="nav-link" href="signs.html">Warning Signs</a></li>
+        <li class="nav-item"><a class="nav-link" href="prevention.html">Prevention</a></li>
+        <li class="nav-item"><a class="nav-link" href="selfcare.html">Self-Care</a></li>
+        <li class="nav-item"><a class="nav-link active-page" href="resources.html">Resources</a></li>
+      </ul>
+      <div class="d-flex gap-2 align-items-center ms-2"><a href="login.html" class="btn-nav-login">Log In</a><a href="register.html" class="btn-nav-reg">Register</a></div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <span class="badge-pill">Help &amp; Support</span>
+    <h1>Where to Find Help</h1>
+    <p>Help is always available — and taking the first step to reach out is an act of real courage. Here are trusted starting points to find the support you deserve.</p>
+  </div>
+</div>
+
+<section id="resources">
+  <div class="container">
+    <div class="row justify-content-center mb-5 text-center"><div class="col-lg-7 reveal"><span class="section-label">Types of Support</span><h2 class="section-title">Six Pathways to Support</h2></div></div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 reveal"><div class="resource-card"><span class="res-tag">Medical</span><h6><i class="bi bi-person-badge me-2" style="color:var(--sage)"></i>Talk to Your Doctor</h6><p>Your primary care physician can refer you to mental health specialists, prescribe medication if appropriate, and rule out physical causes of symptoms. Always a strong first step.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="resource-card"><span class="res-tag">Therapy</span><h6><i class="bi bi-chat-dots me-2" style="color:var(--sage)"></i>Therapy &amp; Counseling</h6><p>Licensed therapists, psychologists, and counselors offer evidence-based treatments like CBT, DBT, EMDR, and talk therapy — tailored to your specific situation and goals.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="resource-card"><span class="res-tag">Crisis</span><h6><i class="bi bi-telephone me-2" style="color:var(--sage)"></i>Crisis Helplines</h6><p>If you're in crisis, contact a helpline immediately. Most offer 24/7 free, confidential support by phone, text, or online chat — no appointment needed.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="resource-card"><span class="res-tag">Digital</span><h6><i class="bi bi-phone me-2" style="color:var(--sage)"></i>Mental Health Apps</h6><p>Apps like Headspace, Calm, Woebot, and Wysa offer guided meditation, mood tracking, and AI-supported conversations — useful as a complement to professional care.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="resource-card"><span class="res-tag">Community</span><h6><i class="bi bi-people me-2" style="color:var(--sage)"></i>Support Groups</h6><p>Peer support groups — in person or online — connect you with others who genuinely understand your experience. They reduce isolation and build lasting community.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="resource-card"><span class="res-tag">Information</span><h6><i class="bi bi-globe me-2" style="color:var(--sage)"></i>Online Resources</h6><p>Trusted sources include WHO, NAMI, Mind.org, and Mental Health America — all offering free education, self-assessment tools, and directories to local services.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="crisis">
+  <div class="container">
+    <div class="row justify-content-center mb-5 text-center"><div class="col-lg-7 reveal"><span class="section-label" style="color:var(--sage-lt)">Immediate Help</span><h2 class="section-title text-white">Crisis Hotlines by Country</h2><p style="color:rgba(255,255,255,.6);margin-top:.8rem;line-height:1.8">If you or someone you know is in immediate distress, please reach out to one of these services now.</p></div></div>
+    <div class="row g-3">
+      <div class="col-md-6 col-lg-3 reveal"><div class="hotline-card"><i class="bi bi-flag" style="font-size:1.4rem;color:var(--sage-lt)"></i><div class="country">United States</div><div class="number">988</div><p>Suicide &amp; Crisis Lifeline — call or text 24/7</p></div></div>
+      <div class="col-md-6 col-lg-3 reveal"><div class="hotline-card"><i class="bi bi-flag" style="font-size:1.4rem;color:var(--sage-lt)"></i><div class="country">United Kingdom</div><div class="number">116 123</div><p>Samaritans — free, confidential, 24/7 support</p></div></div>
+      <div class="col-md-6 col-lg-3 reveal"><div class="hotline-card"><i class="bi bi-flag" style="font-size:1.4rem;color:var(--sage-lt)"></i><div class="country">Canada</div><div class="number">1-833-456-4566</div><p>Crisis Services Canada — 24/7 bilingual support</p></div></div>
+      <div class="col-md-6 col-lg-3 reveal"><div class="hotline-card"><i class="bi bi-flag" style="font-size:1.4rem;color:var(--sage-lt)"></i><div class="country">Australia</div><div class="number">13 11 14</div><p>Lifeline Australia — 24/7 crisis support</p></div></div>
+      <div class="col-md-6 col-lg-3 reveal"><div class="hotline-card"><i class="bi bi-flag" style="font-size:1.4rem;color:var(--sage-lt)"></i><div class="country">Kenya</div><div class="number">0800 723 253</div><p>Befrienders Kenya — free emotional support</p></div></div>
+      <div class="col-md-6 col-lg-3 reveal"><div class="hotline-card"><i class="bi bi-flag" style="font-size:1.4rem;color:var(--sage-lt)"></i><div class="country">India</div><div class="number">9152987821</div><p>iCall — TISS counseling helpline, Mon–Sat</p></div></div>
+      <div class="col-md-6 col-lg-3 reveal"><div class="hotline-card"><i class="bi bi-flag" style="font-size:1.4rem;color:var(--sage-lt)"></i><div class="country">South Africa</div><div class="number">0800 456 789</div><p>SADAG Suicide Crisis Helpline — 24/7 free</p></div></div>
+      <div class="col-md-6 col-lg-3 reveal"><div class="hotline-card"><i class="bi bi-globe" style="font-size:1.4rem;color:var(--sage-lt)"></i><div class="country">International</div><div class="number" style="font-size:1.1rem">findahelpline.com</div><p>Global directory of crisis helplines by country</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="apps">
+  <div class="container">
+    <div class="row justify-content-center mb-5 text-center"><div class="col-lg-7 reveal"><span class="section-label">Digital Tools</span><h2 class="section-title">Recommended Mental Health Apps</h2><p class="text-muted mt-3" style="line-height:1.8">These apps are not substitutes for professional care — but they're evidence-informed tools that complement your mental health journey.</p></div></div>
+    <div class="row g-3">
+      <div class="col-md-6 reveal"><div class="app-item"><div class="app-icon" style="background:rgba(74,124,111,.12);color:var(--sage)"><i class="bi bi-cloud-sun"></i></div><div><h6>Headspace</h6><p>Guided meditation, sleep sounds, and mindfulness exercises. Ideal for beginners building a daily mindfulness practice from scratch.</p></div></div></div>
+      <div class="col-md-6 reveal"><div class="app-item"><div class="app-icon" style="background:rgba(100,149,237,.14);color:#4169a8"><i class="bi bi-water"></i></div><div><h6>Calm</h6><p>Sleep stories, breathing exercises, and music for stress reduction. Particularly strong for sleep improvement and anxiety relief.</p></div></div></div>
+      <div class="col-md-6 reveal"><div class="app-item"><div class="app-icon" style="background:rgba(232,201,138,.22);color:#b5892a"><i class="bi bi-robot"></i></div><div><h6>Woebot</h6><p>An AI-powered CBT chatbot for daily check-ins, mood tracking, and cognitive behavioral tools. Available 24/7 for free emotional support.</p></div></div></div>
+      <div class="col-md-6 reveal"><div class="app-item"><div class="app-icon" style="background:rgba(232,165,152,.2);color:#b5554a"><i class="bi bi-graph-up-arrow"></i></div><div><h6>Daylio</h6><p>Micro-diary and mood tracker. Log your daily mood and activities to identify patterns and emotional triggers over time.</p></div></div></div>
+      <div class="col-md-6 reveal"><div class="app-item"><div class="app-icon" style="background:rgba(111,173,160,.18);color:var(--sage-lt)"><i class="bi bi-chat-square-heart"></i></div><div><h6>Wysa</h6><p>An AI emotional wellbeing coach with evidence-based CBT, DBT, and mindfulness techniques. Also connects to human therapists when needed.</p></div></div></div>
+      <div class="col-md-6 reveal"><div class="app-item"><div class="app-icon" style="background:rgba(74,124,111,.12);color:var(--sage)"><i class="bi bi-journal-heart"></i></div><div><h6>Bearable</h6><p>A health tracker that logs symptoms, mood, sleep, medications, and activities — helping you understand what genuinely impacts your well-being.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="final">
+  <div class="container">
+    <div class="final-card reveal">
+      <i class="bi bi-heart-fill" style="font-size:2.5rem;color:var(--blush);display:block;margin-bottom:1rem"></i>
+      <h3 style="font-size:1.9rem">You Deserve Support</h3>
+      <p style="color:rgba(255,255,255,.7);max-width:560px;margin:1rem auto 1.8rem;line-height:1.75">Whether you're in crisis, struggling quietly, or simply want to be better prepared — reaching out is always the right move. Your mental health matters as much as any other aspect of your health.</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="register.html" class="btn-sage">Join MindWell</a>
+        <a href="signs.html" class="btn-outline-w">Know the Warning Signs</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--warm);margin-bottom:.4rem">🌿 MindWell</p>
+    <div class="footer-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="conditions.html">Conditions</a><a href="signs.html">Warning Signs</a><a href="prevention.html">Prevention</a><a href="selfcare.html">Self-Care</a><a href="resources.html">Resources</a></div>
+    <p style="font-size:.8rem;margin-top:1rem">For educational purposes only. Always consult a qualified mental health professional.</p>
+    <hr style="border-color:rgba(255,255,255,.1);margin:1.5rem auto;max-width:300px">
+    <p style="font-size:.78rem">&copy; 2025 MindWell · Built with Bootstrap 5</p>
+  </div>
+</footer>
+<button id="backTop" title="Back to top"><i class="bi bi-arrow-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=`${(i%4)*80}ms`;obs.observe(el)});
+  const btn=document.getElementById('backTop');
+  window.addEventListener('scroll',()=>btn.classList.toggle('show',scrollY>400));
+  btn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body></html>

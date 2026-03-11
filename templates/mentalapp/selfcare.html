@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Self-Care Guide — MindWell</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--sage:#4a7c6f;--sage-lt:#6fada0;--cream:#f5f0e8;--warm:#e8c98a;--blush:#e8a598;--deep:#1c2b28;--text:#2d3d39;--muted:#6b7c78}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+    h1,h2,h3,h4,h5{font-family:'Playfair Display',serif}
+    .navbar{background:var(--deep)!important;padding:.9rem 2rem;position:sticky;top:0;z-index:1000;border-bottom:1px solid rgba(255,255,255,.06)}
+    .navbar-brand{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--warm)!important}
+    .nav-link{color:rgba(255,255,255,.72)!important;font-size:.87rem;padding:.42rem .85rem!important;border-radius:8px;transition:all .25s}
+    .nav-link:hover,.nav-link.active-page{color:var(--warm)!important;background:rgba(255,255,255,.07)}
+    .btn-nav-login{border:1.5px solid rgba(255,255,255,.3);color:#fff;background:transparent;padding:.4rem 1.2rem;border-radius:50px;font-size:.84rem;transition:all .25s;text-decoration:none;display:inline-block}
+    .btn-nav-login:hover{background:rgba(255,255,255,.08);color:#fff}
+    .btn-nav-reg{background:var(--sage);color:#fff;border:none;padding:.4rem 1.2rem;border-radius:50px;font-size:.84rem;transition:all .25s;text-decoration:none;display:inline-block}
+    .btn-nav-reg:hover{background:var(--sage-lt);color:#fff}
+    .section-label{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:.5rem;display:block}
+    .section-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.2;color:var(--deep)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    .page-hero{background:linear-gradient(135deg,var(--deep) 0%,#2a4a42 60%,var(--sage) 100%);padding:80px 0 70px;position:relative;overflow:hidden}
+    .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 80% 30%,rgba(111,173,160,.2) 0%,transparent 70%)}
+    .badge-pill{display:inline-block;background:rgba(232,201,138,.18);border:1px solid rgba(232,201,138,.45);color:var(--warm);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .9rem;border-radius:50px;margin-bottom:1.2rem}
+    .page-hero h1{color:#fff;font-size:clamp(2rem,5vw,3.4rem);font-weight:900;line-height:1.1}
+    .page-hero p{color:rgba(255,255,255,.7);font-size:1.05rem;max-width:560px;line-height:1.75;margin-top:.9rem}
+
+    #selfcare{background:var(--deep);padding:90px 0}
+    #selfcare .nav-pills .nav-link{border-radius:50px;color:rgba(255,255,255,.6);font-size:.88rem;padding:.5rem 1.5rem;border:1px solid transparent;transition:all .25s}
+    #selfcare .nav-pills .nav-link.active,#selfcare .nav-pills .nav-link:hover{background:var(--sage);color:#fff}
+    .tab-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.4rem;display:flex;gap:1rem;align-items:flex-start;margin-bottom:.9rem;transition:background .25s}
+    .tab-item:hover{background:rgba(111,173,160,.15)}
+    .tab-item i{font-size:1.5rem;color:var(--warm);flex-shrink:0;margin-top:2px}
+    .tab-item h6{color:#fff;margin-bottom:.25rem;font-size:.97rem}
+    .tab-item p{color:rgba(255,255,255,.56);font-size:.86rem;margin:0;line-height:1.6}
+
+    #habits{background:var(--cream);padding:90px 0}
+    .habit-card{background:#fff;border-radius:20px;padding:2rem;height:100%;border:1px solid rgba(74,124,111,.1);transition:all .3s}
+    .habit-card:hover{box-shadow:0 12px 36px rgba(74,124,111,.14);transform:translateY(-4px)}
+    .habit-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
+    .habit-card h5{color:var(--deep);font-size:1rem;margin-bottom:.4rem}
+    .habit-card p{color:var(--muted);font-size:.88rem;line-height:1.6;margin:0}
+
+    #checklist{background:#f0ebe0;padding:90px 0}
+    .check-item{background:#fff;border-radius:12px;padding:1rem 1.4rem;border:1px solid rgba(74,124,111,.12);display:flex;align-items:center;gap:1rem;margin-bottom:.65rem;transition:all .25s;cursor:pointer}
+    .check-item:hover{border-color:var(--sage);background:rgba(74,124,111,.04)}
+    .check-item i{color:var(--sage);font-size:1rem;flex-shrink:0}
+    .check-item span{font-size:.92rem;color:var(--text)}
+
+    footer{background:var(--deep);color:rgba(255,255,255,.5);padding:3rem 0;font-size:.85rem;text-align:center}
+    footer a{color:var(--warm);text-decoration:none}
+    .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;margin:1rem 0}
+    #backTop{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--sage);color:#fff;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 16px rgba(74,124,111,.4);opacity:0;pointer-events:none;transition:opacity .3s;border:none}
+    #backTop.show{opacity:1;pointer-events:all}
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">🌿 MindWell</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon" style="filter:invert(1)"></span></button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="conditions.html">Conditions</a></li>
+        <li class="nav-item"><a class="nav-link" href="signs.html">Warning Signs</a></li>
+        <li class="nav-item"><a class="nav-link" href="prevention.html">Prevention</a></li>
+        <li class="nav-item"><a class="nav-link active-page" href="selfcare.html">Self-Care</a></li>
+        <li class="nav-item"><a class="nav-link" href="resources.html">Resources</a></li>
+      </ul>
+      <div class="d-flex gap-2 align-items-center ms-2"><a href="login.html" class="btn-nav-login">Log In</a><a href="register.html" class="btn-nav-reg">Register</a></div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container position-relative">
+    <span class="badge-pill">Daily Practice</span>
+    <h1>Self-Care Strategies</h1>
+    <p>Self-care is not selfish — it is the essential maintenance your mind needs to function at its best. Explore these categories and build habits that work for your life.</p>
+  </div>
+</div>
+
+<section id="selfcare">
+  <div class="container">
+    <ul class="nav nav-pills justify-content-center mb-5 flex-wrap gap-2 reveal" id="selfcareTabs">
+      <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-body"><i class="bi bi-heart-pulse me-1"></i>Body</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mind"><i class="bi bi-brain me-1"></i>Mind</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-social"><i class="bi bi-people me-1"></i>Social</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-spirit"><i class="bi bi-stars me-1"></i>Spirit &amp; Purpose</button></li>
+    </ul>
+    <div class="tab-content reveal">
+      <div class="tab-pane fade show active" id="tab-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="tab-item"><i class="bi bi-moon-stars"></i><div><h6>Consistent Sleep Schedule</h6><p>Go to bed and wake at the same time daily, even on weekends, to regulate your circadian rhythm and improve sleep quality over time.</p></div></div>
+            <div class="tab-item"><i class="bi bi-bicycle"></i><div><h6>Daily Physical Movement</h6><p>Walk, cycle, swim, dance — any movement counts. Aim for at least 150 minutes of moderate activity per week for measurable mood benefits.</p></div></div>
+          </div>
+          <div class="col-md-6">
+            <div class="tab-item"><i class="bi bi-cup-straw"></i><div><h6>Hydration &amp; Balanced Nutrition</h6><p>Drink adequate water and eat regular, balanced meals. Skipping meals can heighten anxiety, irritability, and reduce cognitive performance.</p></div></div>
+            <div class="tab-item"><i class="bi bi-wind"></i><div><h6>Breathwork &amp; Relaxation</h6><p>Practice diaphragmatic breathing or progressive muscle relaxation to activate the parasympathetic nervous system and reduce physiological stress.</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab-mind">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="tab-item"><i class="bi bi-journal-text"></i><div><h6>Journaling</h6><p>Write your thoughts, feelings, and daily gratitude. Externalizing thoughts reduces their emotional charge and builds powerful self-insight over time.</p></div></div>
+            <div class="tab-item"><i class="bi bi-book"></i><div><h6>Continuous Learning</h6><p>Read, solve puzzles, or learn a new skill. Keeping your brain engaged builds cognitive resilience and a meaningful sense of daily achievement.</p></div></div>
+          </div>
+          <div class="col-md-6">
+            <div class="tab-item"><i class="bi bi-braces"></i><div><h6>Cognitive Reframing</h6><p>Challenge negative thought patterns by actively questioning their validity and replacing catastrophic thinking with balanced, evidence-based perspectives.</p></div></div>
+            <div class="tab-item"><i class="bi bi-phone-flip"></i><div><h6>Scheduled Digital Detox</h6><p>Designate intentional phone-free hours each day. Constant screen stimulation keeps your cortisol response chronically elevated without you realizing it.</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab-social">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="tab-item"><i class="bi bi-chat-heart"></i><div><h6>Open, Honest Conversations</h6><p>Talk honestly about how you're feeling with trusted people. Vulnerability builds deeper connections and relieves the emotional burden of carrying pain alone.</p></div></div>
+            <div class="tab-item"><i class="bi bi-people-fill"></i><div><h6>Community Involvement</h6><p>Join groups, clubs, or causes that align with your values. Belonging to a community provides identity, shared purpose, and reliable social support.</p></div></div>
+          </div>
+          <div class="col-md-6">
+            <div class="tab-item"><i class="bi bi-hand-thumbs-up"></i><div><h6>Volunteer &amp; Give Back</h6><p>Helping others activates the brain's reward pathways and shifts focus outward — reducing rumination and self-critical thinking in meaningful ways.</p></div></div>
+            <div class="tab-item"><i class="bi bi-shield-check"></i><div><h6>Set &amp; Maintain Healthy Boundaries</h6><p>Learn to say no without guilt. Protecting your time and energy from draining relationships or obligations is a fundamental act of self-respect.</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab-spirit">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="tab-item"><i class="bi bi-star"></i><div><h6>Daily Gratitude Practice</h6><p>Write three specific things you're grateful for each morning. Over time this measurably retrains the brain toward a more positive and resilient baseline outlook.</p></div></div>
+            <div class="tab-item"><i class="bi bi-tree"></i><div><h6>Time in Nature</h6><p>Research confirms that even 20 minutes in outdoor natural settings significantly lowers cortisol levels and improves mood, attention, and sense of perspective.</p></div></div>
+          </div>
+          <div class="col-md-6">
+            <div class="tab-item"><i class="bi bi-palette"></i><div><h6>Creative Expression</h6><p>Art, music, writing, cooking — creativity is a therapeutic outlet that helps process complex emotions and restores a vital sense of personal agency and control.</p></div></div>
+            <div class="tab-item"><i class="bi bi-compass"></i><div><h6>Live with Intention</h6><p>Clarify your core values and align your daily choices with them. A life lived with clear purpose is one of the most proven protectors of long-term mental health.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="habits">
+  <div class="container">
+    <div class="row justify-content-center mb-5 text-center">
+      <div class="col-lg-7 reveal"><span class="section-label">Habit Science</span><h2 class="section-title">How to Build Lasting Self-Care Habits</h2><p class="text-muted mt-3" style="line-height:1.8">Willpower alone rarely creates lasting change. These evidence-based principles make self-care habits actually stick.</p></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 reveal"><div class="habit-card"><div class="habit-icon" style="background:rgba(74,124,111,.12);color:var(--sage)"><i class="bi bi-1-circle"></i></div><h5>Start Absurdly Small</h5><p>Begin with 2-minute versions of habits. "Meditate for 2 minutes" beats "meditate for 20 minutes" because you'll actually do it. Small wins build momentum.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="habit-card"><div class="habit-icon" style="background:rgba(232,201,138,.22);color:#b5892a"><i class="bi bi-link"></i></div><h5>Stack onto Existing Habits</h5><p>Attach new habits to established ones. "After I make coffee, I journal for 5 minutes." This leverages existing neural pathways to embed new behaviors.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="habit-card"><div class="habit-icon" style="background:rgba(232,165,152,.2);color:#b5554a"><i class="bi bi-calendar-check"></i></div><h5>Track Consistently</h5><p>A simple calendar or app where you mark daily habits creates a visual chain. The psychological drive not to "break the chain" is surprisingly powerful.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="habit-card"><div class="habit-icon" style="background:rgba(100,149,237,.14);color:#4169a8"><i class="bi bi-people"></i></div><h5>Find an Accountability Partner</h5><p>Share your goals with someone you trust. Social accountability dramatically increases follow-through — we are inherently motivated by social expectations.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="habit-card"><div class="habit-icon" style="background:rgba(111,173,160,.18);color:var(--sage-lt)"><i class="bi bi-shield-x"></i></div><h5>Plan for Obstacles</h5><p>Ask yourself "when X happens, I will do Y." Pre-deciding responses to likely obstacles is one of the strongest predictors of habit success.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="habit-card"><div class="habit-icon" style="background:rgba(232,165,152,.25);color:#a84848"><i class="bi bi-emoji-smile"></i></div><h5>Make It Enjoyable</h5><p>You're far more likely to sustain habits you enjoy. Pair exercise with a podcast you love, or journal with your favourite tea. Pleasure drives persistence.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="checklist">
+  <div class="container">
+    <div class="row justify-content-center mb-5 text-center">
+      <div class="col-lg-7 reveal"><span class="section-label">Your Daily Checklist</span><h2 class="section-title">A Simple Mental Health Checklist</h2><p class="text-muted mt-3" style="line-height:1.8">Run through these daily. They're a starting point for honest self-reflection — not a diagnostic tool.</p></div>
+    </div>
+    <div class="row"><div class="col-lg-8 mx-auto reveal">
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Did I get at least 7 hours of sleep last night?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Have I eaten regular, balanced meals today?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Have I moved my body for at least 20–30 minutes?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Have I spent meaningful time with another person?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Have I done something creative or enjoyable just for me?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Have I taken at least 5–10 minutes away from screens?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Have I noticed and named how I'm feeling emotionally today?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Is there something I'm carrying alone that I should share?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Did I do one small thing that aligned with my values today?</span></div>
+      <div class="check-item"><i class="bi bi-check-circle"></i><span>Am I being kind to myself — the way I'd be kind to a friend?</span></div>
+    </div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--warm);margin-bottom:.4rem">🌿 MindWell</p>
+    <div class="footer-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="conditions.html">Conditions</a><a href="signs.html">Warning Signs</a><a href="prevention.html">Prevention</a><a href="selfcare.html">Self-Care</a><a href="resources.html">Resources</a></div>
+    <p style="font-size:.8rem;margin-top:1rem">For educational purposes only. Always consult a qualified mental health professional.</p>
+    <hr style="border-color:rgba(255,255,255,.1);margin:1.5rem auto;max-width:300px">
+    <p style="font-size:.78rem">&copy; 2025 MindWell · Built with Bootstrap 5</p>
+  </div>
+</footer>
+<button id="backTop" title="Back to top"><i class="bi bi-arrow-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=`${(i%4)*80}ms`;obs.observe(el)});
+  const btn=document.getElementById('backTop');
+  window.addEventListener('scroll',()=>btn.classList.toggle('show',scrollY>400));
+  btn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body></html>

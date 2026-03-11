@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account — MindWell</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--sage:#4a7c6f;--sage-lt:#6fada0;--cream:#f5f0e8;--warm:#e8c98a;--blush:#e8a598;--deep:#1c2b28;--text:#2d3d39;--muted:#6b7c78}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+    h1,h2,h3,h4,h5{font-family:'Playfair Display',serif}
+    .navbar{background:var(--deep)!important;padding:.9rem 2rem;position:sticky;top:0;z-index:1000;border-bottom:1px solid rgba(255,255,255,.06)}
+    .navbar-brand{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--warm)!important}
+    .nav-link{color:rgba(255,255,255,.72)!important;font-size:.87rem;padding:.42rem .85rem!important;border-radius:8px;transition:all .25s}
+    .nav-link:hover{color:var(--warm)!important;background:rgba(255,255,255,.07)}
+    .btn-nav-login{border:1.5px solid rgba(255,255,255,.3);color:#fff;background:transparent;padding:.4rem 1.2rem;border-radius:50px;font-size:.84rem;transition:all .25s;text-decoration:none;display:inline-block}
+    .btn-nav-login:hover{background:rgba(255,255,255,.08);color:#fff}
+    .btn-nav-reg{background:var(--sage);color:#fff;border:none;padding:.4rem 1.2rem;border-radius:50px;font-size:.84rem;transition:all .25s;text-decoration:none;display:inline-block}
+    .btn-nav-reg:hover{background:var(--sage-lt);color:#fff}
+
+    .auth-section{min-height:calc(100vh - 66px);background:linear-gradient(135deg,var(--deep) 0%,#2a4a42 60%,var(--sage) 100%);display:flex;align-items:center;padding:60px 0;position:relative;overflow:hidden}
+    .auth-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 15% 25%,rgba(111,173,160,.22) 0%,transparent 65%),radial-gradient(ellipse 35% 35% at 85% 75%,rgba(232,201,138,.1) 0%,transparent 55%)}
+
+    .auth-card{background:#fff;border-radius:24px;padding:2.8rem 3rem;box-shadow:0 24px 80px rgba(0,0,0,.2);position:relative;z-index:1}
+    .auth-logo{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--sage);margin-bottom:1.5rem;display:block}
+    .auth-card h2{font-size:1.8rem;color:var(--deep);margin-bottom:.3rem}
+    .auth-subtitle{color:var(--muted);font-size:.9rem;margin-bottom:2rem;display:block}
+
+    .form-label{font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.4rem;display:block}
+    .form-control{border:1.5px solid #e0ddd6;border-radius:12px;padding:.75rem 1rem;font-size:.93rem;background:#faf9f6;transition:all .25s;width:100%;font-family:'DM Sans',sans-serif;outline:none}
+    .form-control:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(74,124,111,.12);background:#fff}
+    .form-control.error{border-color:var(--blush)}
+
+    .btn-submit{background:var(--sage);color:#fff;border:none;width:100%;padding:.85rem;border-radius:12px;font-size:1rem;font-weight:600;letter-spacing:.03em;transition:all .25s;margin-top:.5rem;cursor:pointer;font-family:'DM Sans',sans-serif}
+    .btn-submit:hover{background:var(--sage-lt);transform:translateY(-1px)}
+
+    .pwd-wrap{position:relative}
+    .pwd-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:.95rem;padding:0;z-index:5;line-height:1}
+    .pwd-toggle:hover{color:var(--sage)}
+
+    .strength-bar{height:5px;border-radius:50px;background:#e8e4de;margin-top:.5rem;overflow:hidden}
+    .strength-fill{height:100%;border-radius:50px;transition:width .4s ease,background .4s;width:0}
+
+    .auth-switch{text-align:center;margin-top:1.5rem;font-size:.9rem;color:var(--muted)}
+    .auth-switch a{color:var(--sage);font-weight:600;text-decoration:none}
+    .auth-switch a:hover{text-decoration:underline}
+
+    .auth-info{color:rgba(255,255,255,.75);padding:2rem 2rem 2rem 0}
+    .auth-info h3{color:#fff;font-size:1.9rem;line-height:1.2;margin-bottom:1rem;font-family:'Playfair Display',serif}
+    .auth-info p{line-height:1.75;font-size:.95rem;margin-bottom:1.5rem}
+    .auth-benefit{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.9rem}
+    .auth-benefit i{color:var(--warm);font-size:1.1rem;flex-shrink:0;margin-top:2px}
+    .auth-benefit span{font-size:.9rem;line-height:1.55}
+    .quote-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1.4rem;margin-top:2rem}
+    .quote-box p{font-style:italic;color:rgba(255,255,255,.75);font-size:.9rem;line-height:1.7;margin:0}
+    .quote-box cite{color:var(--warm);font-size:.8rem}
+
+    .field-error{color:#c0392b;font-size:.8rem;margin-top:.3rem;display:block}
+    .field-help{color:var(--muted);font-size:.78rem;margin-top:.25rem;display:block}
+    .terms-note{font-size:.78rem;color:var(--muted);text-align:center;margin-top:1rem;line-height:1.5}
+    .terms-note a{color:var(--sage);text-decoration:none}
+    .mb-form{margin-bottom:1.2rem}
+
+    footer{background:var(--deep);color:rgba(255,255,255,.5);padding:2rem 0;font-size:.85rem;text-align:center}
+    footer a{color:var(--warm);text-decoration:none}
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">🌿 MindWell</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon" style="filter:invert(1)"></span></button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="conditions.html">Conditions</a></li>
+        <li class="nav-item"><a class="nav-link" href="signs.html">Warning Signs</a></li>
+        <li class="nav-item"><a class="nav-link" href="prevention.html">Prevention</a></li>
+        <li class="nav-item"><a class="nav-link" href="selfcare.html">Self-Care</a></li>
+        <li class="nav-item"><a class="nav-link" href="resources.html">Resources</a></li>
+      </ul>
+      <div class="d-flex gap-2 align-items-center ms-2"><a href="login.html" class="btn-nav-login">Log In</a><a href="register.html" class="btn-nav-reg">Register</a></div>
+    </div>
+  </div>
+</nav>
+
+<section class="auth-section">
+  <div class="container position-relative">
+    <div class="row align-items-start gy-5 justify-content-center">
+
+      <!-- Form -->
+      <div class="col-lg-6 col-md-9">
+        <div class="auth-card">
+          <span class="auth-logo">🌿 MindWell</span>
+          <h2>Create Your Account</h2>
+          <span class="auth-subtitle">Join thousands taking their mental health seriously.</span>
+
+          <form id="regForm" action="{% url 'register' %}" method="post" novalidate>
+            {% csrf_token %}
+            <!-- Name Row -->
+            <div class="row g-3 mb-form">
+              <div class="col-6">
+                <label class="form-label" for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Jane" autocomplete="given-name">
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Doe" autocomplete="family-name">
+              </div>
+            </div>
+
+            <div class="mb-form">
+              <label class="form-label" for="username">Username <span style="color:#c0392b">*</span></label>
+              <input type="text" id="username" name="username" class="form-control" placeholder="Choose a unique username" autocomplete="username" required>
+              <span class="field-error" id="usernameErr" style="display:none">Username is required.</span>
+            </div>
+
+            <div class="mb-form">
+              <label class="form-label" for="email">Email Address <span style="color:#c0392b">*</span></label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="jane@example.com" autocomplete="email" required>
+              <span class="field-error" id="emailErr" style="display:none">Please enter a valid email address.</span>
+            </div>
+
+            <div class="mb-form">
+              <label class="form-label" for="password1">Password <span style="color:#c0392b">*</span></label>
+              <div class="pwd-wrap">
+                <input type="password" id="password1" name="password1" class="form-control" placeholder="Create a strong password" autocomplete="new-password" required oninput="checkStrength(this.value)">
+                <button type="button" class="pwd-toggle" onclick="togglePwd('password1',this)"><i class="bi bi-eye"></i></button>
+              </div>
+              <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+              <span class="field-help" id="strengthLabel"></span>
+              <span class="field-error" id="pwd1Err" style="display:none">Password must be at least 8 characters.</span>
+            </div>
+
+            <div class="mb-form">
+              <label class="form-label" for="password2">Confirm Password <span style="color:#c0392b">*</span></label>
+              <div class="pwd-wrap">
+                <input type="password" id="password2" name="password2" class="form-control" placeholder="Repeat your password" autocomplete="new-password" required>
+                <button type="button" class="pwd-toggle" onclick="togglePwd('password2',this)"><i class="bi bi-eye"></i></button>
+              </div>
+              <span class="field-error" id="pwd2Err" style="display:none">Passwords do not match.</span>
+            </div>
+
+            <div class="mb-form" style="display:flex;align-items:flex-start;gap:.6rem">
+              <input type="checkbox" id="agree" name="agree" style="accent-color:var(--sage);margin-top:3px;flex-shrink:0" required>
+              <label for="agree" style="font-size:.85rem;color:var(--muted);cursor:pointer">I understand this site is for educational purposes and not a substitute for professional mental health care.</label>
+            </div>
+
+            <button type="submit" class="btn-submit"><i class="bi bi-person-plus me-2"></i>Create My Account</button>
+          </form>
+
+          <p class="terms-note">By registering you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+          <div class="auth-switch">Already have an account? <a href="login.html">Log in here</a></div>
+        </div>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="col-lg-5 d-none d-lg-block">
+        <div class="auth-info">
+          <h3>Your mental health journey starts here.</h3>
+          <p>MindWell is a free educational platform designed to help you understand, protect, and improve your mental well-being.</p>
+          <div class="auth-benefit"><i class="bi bi-check-circle-fill"></i><span>Access our full library of mental health guides</span></div>
+          <div class="auth-benefit"><i class="bi bi-check-circle-fill"></i><span>Save resources and crisis contacts you'll actually need</span></div>
+          <div class="auth-benefit"><i class="bi bi-check-circle-fill"></i><span>Build a personalized daily self-care checklist</span></div>
+          <div class="auth-benefit"><i class="bi bi-check-circle-fill"></i><span>Join a community that understands — no judgment</span></div>
+          <div class="auth-benefit"><i class="bi bi-check-circle-fill"></i><span>Free forever — your mental health shouldn't cost a fortune</span></div>
+          <div class="quote-box">
+            <p>"There is no health without mental health."</p>
+            <cite>— World Health Organization</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 MindWell &nbsp;·&nbsp; <a href="index.html">Home</a> &nbsp;·&nbsp; <a href="login.html">Log In</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function togglePwd(id, btn) {
+  const input = document.getElementById(id);
+  const icon = btn.querySelector('i');
+  if (input.type === 'password') { input.type = 'text'; icon.className = 'bi bi-eye-slash'; }
+  else { input.type = 'password'; icon.className = 'bi bi-eye'; }
+}
+
+function checkStrength(val) {
+  const fill = document.getElementById('strengthFill');
+  const label = document.getElementById('strengthLabel');
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const levels = [
+    {w:'0%',c:'transparent',t:''},
+    {w:'25%',c:'#e74c3c',t:'Weak — try adding numbers or symbols'},
+    {w:'50%',c:'#e67e22',t:'Fair — getting better'},
+    {w:'75%',c:'#f1c40f',t:'Good — add a special character to strengthen'},
+    {w:'100%',c:'#4a7c6f',t:'Strong ✓'},
+  ];
+  const l = levels[score];
+  fill.style.width = l.w;
+  fill.style.background = l.c;
+  label.textContent = l.t;
+  label.style.color = l.c === 'transparent' ? 'var(--muted)' : l.c;
+}
+
+document.getElementById('regForm').addEventListener('submit', function(e) {
+  let valid = true;
+  const u = document.getElementById('username');
+  const em = document.getElementById('email');
+  const p1 = document.getElementById('password1');
+  const p2 = document.getElementById('password2');
+
+  // Username
+  if (!u.value.trim()) { u.classList.add('error'); document.getElementById('usernameErr').style.display='block'; valid=false; }
+  else { u.classList.remove('error'); document.getElementById('usernameErr').style.display='none'; }
+
+  // Email
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRe.test(em.value)) { em.classList.add('error'); document.getElementById('emailErr').style.display='block'; valid=false; }
+  else { em.classList.remove('error'); document.getElementById('emailErr').style.display='none'; }
+
+  // Password length
+  if (p1.value.length < 8) { p1.classList.add('error'); document.getElementById('pwd1Err').style.display='block'; valid=false; }
+  else { p1.classList.remove('error'); document.getElementById('pwd1Err').style.display='none'; }
+
+  // Passwords match
+  if (p1.value !== p2.value || !p2.value) { p2.classList.add('error'); document.getElementById('pwd2Err').style.display='block'; valid=false; }
+  else { p2.classList.remove('error'); document.getElementById('pwd2Err').style.display='none'; }
+
+  // Remove preventDefault when connecting to Django — this is for static demo only
+  if (!valid) e.preventDefault();
+});
+</script>
+</body></html>
