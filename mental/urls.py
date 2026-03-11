@@ -38,6 +38,8 @@ urlpatterns = [
 
     # ── APP URLS ───────────────────────────────────────────────
     path('', include('mentalapp.urls', namespace='mentalapp')),
+
+
 ]
 
 # ── MEDIA FILES (DEV ONLY) ─────────────────────────────────

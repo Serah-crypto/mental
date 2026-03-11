@@ -39,7 +39,6 @@ def signs(request):
 
 def prevention(request):
     return render(request, 'mentalapp/prevention.html')
-
 def selfcare_info(request):
     return render(request, 'mentalapp/selfcare.html')
 

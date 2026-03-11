@@ -10,6 +10,9 @@ app_name = 'mentalapp'
 urlpatterns = [
 
     # ── HOME & INFO PAGES ──────────────────────────────────────
+
+
+
     path('',                        views.home_view,      name='home'),
     path('about/',                  views.about,          name='about'),
     path('conditions/',             views.conditions,     name='conditions'),
