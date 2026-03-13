@@ -1,0 +1,195 @@
+{% extends 'mentalapp/base.html' %}
+{% block title %}Dashboard · MindWell{% endblock %}
+
+{% block extra_css %}
+<style>
+  .dash-hero{
+    background:linear-gradient(135deg,var(--deep) 0%,#2a4a42 100%);
+    color:#fff;
+    padding:3rem 0 2.5rem;
+  }
+  .dash-hero h1{color:var(--warm);font-size:2rem}
+  .dash-hero p{color:rgba(255,255,255,.65);font-size:.95rem}
+
+  .stat-card{
+    background:#fff;
+    border-radius:16px;
+    padding:1.4rem 1.6rem;
+    border:1px solid rgba(74,124,111,.15);
+    transition:transform .2s,box-shadow .2s;
+  }
+  .stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(74,124,111,.12)}
+  .stat-card .icon{
+    width:46px;height:46px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.3rem;margin-bottom:.8rem
+  }
+  .stat-card h6{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.2rem}
+  .stat-card .val{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--deep)}
+
+  .section-card{
+    background:#fff;border-radius:16px;
+    border:1px solid rgba(74,124,111,.12);
+    overflow:hidden;
+  }
+  .section-card .card-header-custom{
+    background:var(--sage);color:#fff;
+    padding:.85rem 1.25rem;
+    display:flex;align-items:center;gap:.5rem;
+    font-size:.92rem;font-weight:600
+  }
+  .mood-badge{
+    display:inline-block;padding:.25rem .7rem;border-radius:20px;
+    font-size:.78rem;font-weight:500
+  }
+  .mood-1{background:#fce4ec;color:#c62828}
+  .mood-2{background:#fff3e0;color:#e65100}
+  .mood-3{background:#fff9c4;color:#f57f17}
+  .mood-4{background:#e8f5e9;color:#2e7d32}
+  .mood-5{background:#e3f2fd;color:#1565c0}
+
+  .quick-link{
+    display:flex;align-items:center;gap:.75rem;
+    padding:.85rem 1rem;border-radius:12px;
+    background:#fff;border:1px solid rgba(74,124,111,.15);
+    color:var(--text);text-decoration:none;
+    transition:all .2s;font-size:.9rem
+  }
+  .quick-link:hover{background:var(--sage);color:#fff;border-color:var(--sage)}
+  .quick-link .ql-icon{font-size:1.2rem}
+
+  .checklist-pill{
+    display:flex;align-items:center;gap:.5rem;
+    padding:.4rem .8rem;border-radius:20px;
+    font-size:.82rem;
+  }
+  .pill-done{background:#e8f5e9;color:#2e7d32}
+  .pill-skip{background:#fafafa;color:var(--muted);border:1px solid #eee}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="dash-hero">
+  <div class="container">
+    <h1>Welcome back, {{ request.user.first_name|default:request.user.username }} 👋</h1>
+    <p>{{ today|date:"l, F j, Y" }} · Here's your wellness snapshot</p>
+  </div>
+</section>
+
+<div class="container py-4">
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-{{ msg.tags }} alert-dismissible fade show" role="alert">
+        {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Quick Actions -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <a href="{% url 'mentalapp:mood_create' %}" class="quick-link">
+        <span class="ql-icon">😊</span> Log Mood
+      </a>
+    </div>
+    <div class="col-6 col-md-3">
+      <a href="{% url 'mentalapp:journal_create' %}" class="quick-link">
+        <span class="ql-icon">📝</span> New Journal
+      </a>
+    </div>
+    <div class="col-6 col-md-3">
+      <a href="{% url 'mentalapp:checklist_today' %}" class="quick-link">
+        <span class="ql-icon">✅</span> Today's Checklist
+      </a>
+    </div>
+    <div class="col-6 col-md-3">
+      <a href="{% url 'mentalapp:saved_resources' %}" class="quick-link">
+        <span class="ql-icon">🔖</span> Saved Resources
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Recent Moods -->
+    <div class="col-lg-6">
+      <div class="section-card h-100">
+        <div class="card-header-custom">
+          <i class="bi bi-emoji-smile"></i> Recent Moods
+          <a href="{% url 'mentalapp:mood_list' %}" class="ms-auto text-white-50 text-decoration-none" style="font-size:.8rem">View all →</a>
+        </div>
+        <div class="p-3">
+          {% if recent_moods %}
+            {% for mood in recent_moods %}
+            <div class="d-flex align-items-center justify-content-between py-2 border-bottom border-light">
+              <div>
+                <span class="mood-badge mood-{{ mood.score }}">{{ mood.get_score_display }}</span>
+                <span class="ms-2 text-muted" style="font-size:.8rem">{{ mood.date|date:"M j" }}</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="{% url 'mentalapp:mood_edit' mood.pk %}" class="text-muted"><i class="bi bi-pencil" style="font-size:.85rem"></i></a>
+                <a href="{% url 'mentalapp:mood_delete' mood.pk %}" class="text-danger"><i class="bi bi-trash" style="font-size:.85rem"></i></a>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <p class="text-muted py-3 text-center" style="font-size:.88rem">No moods logged yet. <a href="{% url 'mentalapp:mood_create' %}">Log your first one!</a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Journals -->
+    <div class="col-lg-6">
+      <div class="section-card h-100">
+        <div class="card-header-custom">
+          <i class="bi bi-journal-text"></i> Recent Journal Entries
+          <a href="{% url 'mentalapp:journal_list' %}" class="ms-auto text-white-50 text-decoration-none" style="font-size:.8rem">View all →</a>
+        </div>
+        <div class="p-3">
+          {% if recent_journals %}
+            {% for entry in recent_journals %}
+            <div class="py-2 border-bottom border-light">
+              <div class="d-flex justify-content-between align-items-start">
+                <a href="{% url 'mentalapp:journal_detail' entry.pk %}" class="text-decoration-none text-dark fw-500" style="font-size:.9rem">
+                  {{ entry.title|default:"Untitled Entry" }}
+                </a>
+                <span class="text-muted ms-2" style="font-size:.78rem;white-space:nowrap">{{ entry.created_at|date:"M j" }}</span>
+              </div>
+              <p class="text-muted mb-0" style="font-size:.8rem">{{ entry.content|truncatechars:60 }}</p>
+            </div>
+            {% endfor %}
+          {% else %}
+            <p class="text-muted py-3 text-center" style="font-size:.88rem">No journal entries yet. <a href="{% url 'mentalapp:journal_create' %}">Write your first!</a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Today's Checklist -->
+    <div class="col-12">
+      <div class="section-card">
+        <div class="card-header-custom">
+          <i class="bi bi-check2-square"></i> Today's Self-Care Checklist
+          <a href="{% url 'mentalapp:checklist_today' %}" class="ms-auto text-white-50 text-decoration-none" style="font-size:.8rem">Update →</a>
+        </div>
+        <div class="p-3">
+          {% if today_checklist %}
+          <div class="d-flex flex-wrap gap-2">
+            {% if today_checklist.drank_water %}<span class="checklist-pill pill-done"><i class="bi bi-droplet-fill"></i> Water</span>{% else %}<span class="checklist-pill pill-skip"><i class="bi bi-droplet"></i> Water</span>{% endif %}
+            {% if today_checklist.exercised %}<span class="checklist-pill pill-done"><i class="bi bi-activity"></i> Exercise</span>{% else %}<span class="checklist-pill pill-skip"><i class="bi bi-activity"></i> Exercise</span>{% endif %}
+            {% if today_checklist.slept_well %}<span class="checklist-pill pill-done"><i class="bi bi-moon-stars-fill"></i> Sleep</span>{% else %}<span class="checklist-pill pill-skip"><i class="bi bi-moon-stars"></i> Sleep</span>{% endif %}
+            {% if today_checklist.ate_well %}<span class="checklist-pill pill-done"><i class="bi bi-egg-fried"></i> Nutrition</span>{% else %}<span class="checklist-pill pill-skip"><i class="bi bi-egg-fried"></i> Nutrition</span>{% endif %}
+            {% if today_checklist.meditated %}<span class="checklist-pill pill-done"><i class="bi bi-peace-fill"></i> Meditation</span>{% else %}<span class="checklist-pill pill-skip"><i class="bi bi-peace"></i> Meditation</span>{% endif %}
+          </div>
+          {% else %}
+          <p class="text-muted text-center py-2" style="font-size:.88rem">No checklist for today yet. <a href="{% url 'mentalapp:checklist_today' %}">Start now!</a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -6,6 +6,7 @@
    <style>
   .hero{background:linear-gradient(135deg,var(--deep) 0%,#2a4a42 60%,var(--sage) 100%);min-height:93vh;display:flex;align-items:center;position:relative;overflow:hidden}
   .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 80% 30%,rgba(111,173,160,.25) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 70%,rgba(232,201,138,.12) 0%,transparent 60%)}
+
   .hero-title{font-size:clamp(2.4rem,6vw,5rem);font-weight:900;line-height:1.05;color:#fff}
   .hero-title span{color:var(--warm)}
   .hero-sub{font-size:1.1rem;color:rgba(255,255,255,.72);max-width:520px;line-height:1.75}
@@ -92,7 +93,7 @@
       <h3 style="font-size:1.8rem;color:var(--deep)">You Don't Have to Face This Alone</h3>
       <p class="text-muted mt-3 mb-4" style="line-height:1.75;font-size:1rem">Whether you're learning for yourself or for someone you love — knowledge is the first step. Join our community and take your mental wellness journey seriously.</p>
       <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <a href="{% url 'mentalapp:register' %}" class="btn-sage">Create Free Account</a>
+          <a href="{% url 'mentalapp:register' %}" class="btn-sage">Create Free Account</a>
         <a href="{% url 'mentalapp:about' %}" style="background:rgba(74,124,111,.1);color:var(--sage);border-radius:50px;padding:.72rem 1.8rem;text-decoration:none;font-size:.93rem;display:inline-block">Explore the Guide</a>
       </div>
     </div>

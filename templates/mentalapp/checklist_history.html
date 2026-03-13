@@ -1,0 +1,108 @@
+{% extends 'mentalapp/base.html' %}
+{% block title %}Checklist History · MindWell{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-hero{background:linear-gradient(135deg,var(--deep),#2a4a42);padding:2.5rem 0;color:#fff}
+  .page-hero h1{color:var(--warm);font-size:1.9rem}
+  .page-hero p{color:rgba(255,255,255,.6);font-size:.9rem}
+
+  .history-card{background:#fff;border-radius:16px;border:1px solid rgba(74,124,111,.12);overflow:hidden}
+  .history-row{
+    display:grid;
+    grid-template-columns:140px repeat(5,1fr) 80px;
+    align-items:center;gap:.5rem;
+    padding:.85rem 1.25rem;
+    border-bottom:1px solid #f0ede7;font-size:.85rem
+  }
+  .history-row:last-child{border-bottom:none}
+  .history-row:hover{background:#faf8f4}
+  .history-header{
+    background:#f5f0e8;font-size:.75rem;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--muted);font-weight:600
+  }
+
+  .tick{color:#2e7d32;font-size:1rem}
+  .cross{color:#ccc;font-size:.9rem}
+
+  .score-badge{
+    display:inline-block;padding:.2rem .65rem;border-radius:20px;font-size:.78rem;font-weight:600
+  }
+  .s5{background:#e8f5e9;color:#2e7d32}
+  .s4{background:#f1f8e9;color:#558b2f}
+  .s3{background:#fff9c4;color:#f57f17}
+  .s2{background:#fff3e0;color:#e65100}
+  .s1{background:#fce4ec;color:#c62828}
+  .s0{background:#fafafa;color:#aaa}
+
+  .btn-sage{background:var(--sage);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-size:.88rem}
+  .btn-sage:hover{background:var(--sage-lt);color:#fff}
+
+  .empty-state{text-align:center;padding:4rem 1rem}
+  .empty-state .es-icon{font-size:3rem;opacity:.35;margin-bottom:1rem}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1>📅 Checklist History</h1>
+      <p>Your self-care streaks over time</p>
+    </div>
+    <a href="{% url 'mentalapp:checklist_today' %}" class="btn-sage btn">Today's Checklist</a>
+  </div>
+</section>
+
+<div class="container py-4">
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-{{ msg.tags }} alert-dismissible fade show">
+        {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="history-card">
+    {% if items %}
+      <div class="history-row history-header">
+        <span>Date</span>
+        <span>💧 Water</span>
+        <span>🏃 Exercise</span>
+        <span>🌙 Sleep</span>
+        <span>🥗 Nutrition</span>
+        <span>🧘 Meditate</span>
+        <span>Score</span>
+      </div>
+      {% for item in items %}
+      {% with score=item.drank_water|add:item.exercised|add:item.slept_well|add:item.ate_well|add:item.meditated %}
+      <div class="history-row">
+        <span style="color:var(--muted)">{{ item.date|date:"M j, Y" }}</span>
+        <span>{% if item.drank_water %}<i class="bi bi-check-circle-fill tick"></i>{% else %}<i class="bi bi-circle cross"></i>{% endif %}</span>
+        <span>{% if item.exercised %}<i class="bi bi-check-circle-fill tick"></i>{% else %}<i class="bi bi-circle cross"></i>{% endif %}</span>
+        <span>{% if item.slept_well %}<i class="bi bi-check-circle-fill tick"></i>{% else %}<i class="bi bi-circle cross"></i>{% endif %}</span>
+        <span>{% if item.ate_well %}<i class="bi bi-check-circle-fill tick"></i>{% else %}<i class="bi bi-circle cross"></i>{% endif %}</span>
+        <span>{% if item.meditated %}<i class="bi bi-check-circle-fill tick"></i>{% else %}<i class="bi bi-circle cross"></i>{% endif %}</span>
+        <span>
+          <span class="score-badge
+            {% if item.drank_water and item.exercised and item.slept_well and item.ate_well and item.meditated %}s5
+            {% else %}s3{% endif %}">
+            <!--  Simple pass through — backend can pass score if model has computed field -->
+            {{ item.drank_water|add:item.exercised|add:item.slept_well|add:item.ate_well|add:item.meditated }}/5
+          </span>
+        </span>
+      </div>
+      {% endwith %}
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        <div class="es-icon">📋</div>
+        <h5 style="font-family:'Playfair Display',serif;color:var(--deep)">No history yet</h5>
+        <p class="text-muted" style="font-size:.88rem">Start filling out your daily checklist to build a streak.</p>
+        <a href="{% url 'mentalapp:checklist_today' %}" class="btn-sage btn mt-2">Go to Today's Checklist</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

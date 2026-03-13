@@ -45,6 +45,8 @@ def selfcare_info(request):
 def resources_info(request):
     return render(request, 'mentalapp/resources.html')
 
+
+
 def contact(request):
     if request.method == 'POST':
         form = ContactMessageForm(request.POST)
@@ -62,38 +64,47 @@ def contact(request):
 
 # ── AUTHENTICATION ─────────────────────────────────────────────
 def register_view(request):
+    # If the user is already logged in, send them to home
     if request.user.is_authenticated:
-        return redirect('mentalapp:dashboard')
+        messages.info(request, "You are already logged in!")
+        return redirect('mentalapp:home')  # safe redirect
+
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request, user)  # log in the user immediately
             messages.success(request, "Registration successful! Welcome 🎉")
-            return redirect('mentalapp:dashboard')
+            return redirect('mentalapp:home')  # redirect after registration
     else:
         form = UserRegisterForm()
+
     return render(request, 'mentalapp/register.html', {'form': form})
 
 
 def login_view(request):
+    # Redirect logged-in users to home
     if request.user.is_authenticated:
-        return redirect('mentalapp:dashboard')
+        messages.info(request, "You are already logged in!")
+        return redirect('mentalapp:home')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
-            # FIX: next_url must be a path, not a named URL string
+            # Use next_url if provided, else redirect to home
             next_url = request.GET.get('next') or request.POST.get('next')
             if next_url:
                 return redirect(next_url)
-            return redirect('mentalapp:dashboard')
+            return redirect('mentalapp:home')  # redirect to home after login
         else:
             messages.error(request, "Invalid username or password.")
-    return render(request, 'mentalapp/login.html', {'next': request.GET.get('next', '')})
 
+    # Pass 'next' from GET to template
+    return render(request, 'mentalapp/login.html', {'next': request.GET.get('next', '')})
 
 def logout_view(request):
     # FIX: Only allow POST logout to prevent CSRF/logout attacks

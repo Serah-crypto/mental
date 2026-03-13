@@ -1,0 +1,46 @@
+{% extends 'mentalapp/base.html' %}
+{% block title %}Delete Journal Entry · MindWell{% endblock %}
+
+{% block extra_css %}
+<style>
+  .confirm-wrap{max-width:500px;margin:4rem auto;text-align:center}
+  .confirm-card{background:#fff;border-radius:16px;border:1px solid rgba(74,124,111,.12);padding:2.5rem 2rem}
+  .confirm-icon{font-size:3rem;margin-bottom:1rem}
+  .confirm-card h3{font-family:'Playfair Display',serif;color:var(--deep);margin-bottom:.5rem}
+  .entry-preview{
+    background:#f5f0e8;border-radius:10px;padding:1rem;
+    text-align:left;margin:1rem 0 1.5rem;font-size:.88rem;color:var(--text)
+  }
+  .entry-preview strong{display:block;margin-bottom:.3rem;color:var(--deep)}
+
+  .btn-danger-soft{background:#c62828;color:#fff;border:none;border-radius:10px;padding:.6rem 1.4rem;font-size:.9rem}
+  .btn-danger-soft:hover{background:#b71c1c;color:#fff}
+  .btn-outline-back{background:transparent;color:var(--muted);border:1.5px solid #ddd;border-radius:10px;padding:.6rem 1.2rem;font-size:.9rem;text-decoration:none;transition:all .2s}
+  .btn-outline-back:hover{border-color:var(--sage);color:var(--sage)}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="confirm-wrap">
+    <div class="confirm-card">
+      <div class="confirm-icon">🗑️</div>
+      <h3>Delete Journal Entry?</h3>
+      <p class="text-muted" style="font-size:.9rem">This action cannot be undone.</p>
+
+      <div class="entry-preview">
+        <strong>{{ entry.title|default:"Untitled Entry" }}</strong>
+        {{ entry.content|truncatechars:100 }}
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center gap-3">
+          <button type="submit" class="btn-danger-soft btn">Yes, Delete</button>
+          <a href="{% url 'mentalapp:journal_detail' entry.pk %}" class="btn-outline-back">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'mentalapp/base.html' %}
+{% block title %}Journal · MindWell{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-hero{background:linear-gradient(135deg,var(--deep),#2a4a42);padding:2.5rem 0;color:#fff}
+  .page-hero h1{color:var(--warm);font-size:1.9rem}
+  .page-hero p{color:rgba(255,255,255,.6);font-size:.9rem}
+
+  .journal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+
+  .journal-card{
+    background:#fff;border-radius:16px;
+    border:1px solid rgba(74,124,111,.12);
+    padding:1.5rem;
+    transition:transform .2s,box-shadow .2s;
+    display:flex;flex-direction:column
+  }
+  .journal-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(74,124,111,.12)}
+
+  .journal-date{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem}
+  .journal-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--deep);margin-bottom:.5rem;text-decoration:none;display:block}
+  .journal-title:hover{color:var(--sage)}
+  .journal-excerpt{font-size:.85rem;color:var(--muted);flex:1;margin-bottom:1rem}
+
+  .journal-actions{display:flex;gap:.5rem;margin-top:auto}
+  .act-btn{padding:.3rem .8rem;border-radius:8px;font-size:.8rem;text-decoration:none;transition:all .2s}
+  .act-view{background:var(--sage);color:#fff}
+  .act-view:hover{background:var(--sage-lt);color:#fff}
+  .act-edit{background:#f5f0e8;color:var(--text)}
+  .act-edit:hover{background:#ede8df;color:var(--text)}
+  .act-del{background:#fce4ec;color:#c62828}
+  .act-del:hover{background:#f8bbd0;color:#b71c1c}
+
+  .btn-sage{background:var(--sage);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-size:.88rem;transition:background .2s}
+  .btn-sage:hover{background:var(--sage-lt);color:#fff}
+
+  .empty-state{text-align:center;padding:4rem 1rem;background:#fff;border-radius:16px;border:1px solid rgba(74,124,111,.12)}
+  .empty-state .es-icon{font-size:3rem;margin-bottom:1rem;opacity:.35}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1>📓 Journal</h1>
+      <p>Your private thoughts & reflections</p>
+    </div>
+    <a href="{% url 'mentalapp:journal_create' %}" class="btn-sage btn">+ New Entry</a>
+  </div>
+</section>
+
+<div class="container py-4">
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-{{ msg.tags }} alert-dismissible fade show">
+        {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if entries %}
+    <div class="journal-grid">
+      {% for entry in entries %}
+      <div class="journal-card">
+        <span class="journal-date">{{ entry.created_at|date:"F j, Y · g:i A" }}</span>
+        <a href="{% url 'mentalapp:journal_detail' entry.pk %}" class="journal-title">
+          {{ entry.title|default:"Untitled Entry" }}
+        </a>
+        <p class="journal-excerpt">{{ entry.content|truncatechars:120 }}</p>
+        <div class="journal-actions">
+          <a href="{% url 'mentalapp:journal_detail' entry.pk %}" class="act-btn act-view">Read</a>
+          <a href="{% url 'mentalapp:journal_edit' entry.pk %}" class="act-btn act-edit">Edit</a>
+          <a href="{% url 'mentalapp:journal_delete' entry.pk %}" class="act-btn act-del">Delete</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <div class="es-icon">📖</div>
+      <h5 style="font-family:'Playfair Display',serif;color:var(--deep)">No journal entries yet</h5>
+      <p class="text-muted" style="font-size:.88rem">Writing helps process thoughts and feelings.</p>
+      <a href="{% url 'mentalapp:journal_create' %}" class="btn-sage btn mt-2">Write Your First Entry</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

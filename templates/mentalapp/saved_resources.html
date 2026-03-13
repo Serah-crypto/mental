@@ -1,0 +1,93 @@
+{% extends 'mentalapp/base.html' %}
+{% block title %}Saved Resources · MindWell{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-hero{background:linear-gradient(135deg,var(--deep),#2a4a42);padding:2.5rem 0;color:#fff}
+  .page-hero h1{color:var(--warm);font-size:1.9rem}
+  .page-hero p{color:rgba(255,255,255,.6);font-size:.9rem}
+
+  .resources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+
+  .resource-card{
+    background:#fff;border-radius:14px;
+    border:1px solid rgba(74,124,111,.12);
+    padding:1.4rem;
+    display:flex;flex-direction:column;
+    transition:transform .2s,box-shadow .2s
+  }
+  .resource-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(74,124,111,.1)}
+
+  .resource-tag{
+    display:inline-block;padding:.2rem .65rem;border-radius:20px;
+    font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+    background:var(--cream);color:var(--sage);margin-bottom:.75rem
+  }
+  .resource-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--deep);margin-bottom:.4rem}
+  .resource-desc{font-size:.85rem;color:var(--muted);flex:1;margin-bottom:1rem}
+
+  .resource-footer{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:auto}
+  .btn-visit{background:var(--sage);color:#fff;border-radius:8px;padding:.35rem .9rem;font-size:.82rem;text-decoration:none;transition:background .2s}
+  .btn-visit:hover{background:var(--sage-lt);color:#fff}
+  .btn-del{background:#fce4ec;color:#c62828;border-radius:8px;padding:.35rem .7rem;font-size:.82rem;text-decoration:none;transition:all .2s}
+  .btn-del:hover{background:#f8bbd0}
+
+  .btn-sage{background:var(--sage);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-size:.88rem}
+  .btn-sage:hover{background:var(--sage-lt);color:#fff}
+
+  .empty-state{text-align:center;padding:4rem 1rem;background:#fff;border-radius:16px;border:1px solid rgba(74,124,111,.12)}
+  .empty-state .es-icon{font-size:3rem;opacity:.35;margin-bottom:1rem}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1>🔖 Saved Resources</h1>
+      <p>Your curated mental health links</p>
+    </div>
+    <a href="{% url 'mentalapp:save_resource' %}" class="btn-sage btn">+ Save Resource</a>
+  </div>
+</section>
+
+<div class="container py-4">
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-{{ msg.tags }} alert-dismissible fade show">
+        {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if resources %}
+    <div class="resources-grid">
+      {% for resource in resources %}
+      <div class="resource-card">
+        {% if resource.category %}<span class="resource-tag">{{ resource.category }}</span>{% endif %}
+        <h5 class="resource-title">{{ resource.title }}</h5>
+        {% if resource.description %}<p class="resource-desc">{{ resource.description|truncatechars:100 }}</p>{% endif %}
+        <div class="resource-footer">
+          {% if resource.url %}
+          <a href="{{ resource.url }}" target="_blank" rel="noopener" class="btn-visit">
+            <i class="bi bi-box-arrow-up-right"></i> Visit
+          </a>
+          {% else %}<span></span>{% endif %}
+          <a href="{% url 'mentalapp:delete_saved_resource' resource.pk %}" class="btn-del">
+            <i class="bi bi-trash"></i> Remove
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <div class="es-icon">🔗</div>
+      <h5 style="font-family:'Playfair Display',serif;color:var(--deep)">No saved resources yet</h5>
+      <p class="text-muted" style="font-size:.88rem">Save helpful articles, hotlines, or tools you find.</p>
+      <a href="{% url 'mentalapp:save_resource' %}" class="btn-sage btn mt-2">Save Your First Resource</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

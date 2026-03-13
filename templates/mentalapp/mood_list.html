@@ -1,0 +1,103 @@
+{% extends 'mentalapp/base.html' %}
+{% block title %}Mood Tracker · MindWell{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-hero{background:linear-gradient(135deg,var(--deep),#2a4a42);padding:2.5rem 0;color:#fff}
+  .page-hero h1{color:var(--warm);font-size:1.9rem}
+  .page-hero p{color:rgba(255,255,255,.6);font-size:.9rem}
+
+  .mood-table-card{
+    background:#fff;border-radius:16px;
+    border:1px solid rgba(74,124,111,.12);
+    overflow:hidden
+  }
+  .mood-row{
+    display:grid;
+    grid-template-columns:110px 1fr auto auto;
+    align-items:center;gap:1rem;
+    padding:.9rem 1.25rem;
+    border-bottom:1px solid #f0ede7;
+    transition:background .15s
+  }
+  .mood-row:hover{background:#faf8f4}
+  .mood-row:last-child{border-bottom:none}
+
+  .mood-score{
+    display:inline-flex;align-items:center;gap:.4rem;
+    padding:.3rem .75rem;border-radius:20px;font-size:.82rem;font-weight:500
+  }
+  .score-1{background:#fce4ec;color:#c62828}
+  .score-2{background:#fff3e0;color:#e65100}
+  .score-3{background:#fff9c4;color:#f57f17}
+  .score-4{background:#e8f5e9;color:#2e7d32}
+  .score-5{background:#e3f2fd;color:#1565c0}
+
+  .btn-sage{background:var(--sage);color:#fff;border:none;border-radius:10px;padding:.5rem 1.2rem;font-size:.88rem;transition:background .2s}
+  .btn-sage:hover{background:var(--sage-lt);color:#fff}
+
+  .empty-state{text-align:center;padding:3.5rem 1rem}
+  .empty-state .es-icon{font-size:3rem;margin-bottom:1rem;opacity:.4}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1>😊 Mood Tracker</h1>
+      <p>Track how you feel over time</p>
+    </div>
+    <a href="{% url 'mentalapp:mood_create' %}" class="btn-sage btn">+ Log Mood</a>
+  </div>
+</section>
+
+<div class="container py-4">
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-{{ msg.tags }} alert-dismissible fade show">
+        {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="mood-table-card">
+    {% if moods %}
+      <!-- Header -->
+      <div class="mood-row" style="background:#f5f0e8;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600">
+        <span>Date</span>
+        <span>Mood</span>
+        <span>Note</span>
+        <span>Actions</span>
+      </div>
+      {% for mood in moods %}
+      <div class="mood-row">
+        <span style="font-size:.88rem;color:var(--muted)">{{ mood.date|date:"M j, Y" }}</span>
+        <span class="mood-score score-{{ mood.score }}">
+          {% if mood.score == 1 %}😞 Very Low
+          {% elif mood.score == 2 %}😕 Low
+          {% elif mood.score == 3 %}😐 Okay
+          {% elif mood.score == 4 %}😊 Good
+          {% elif mood.score == 5 %}😄 Great
+          {% else %}{{ mood.score }}
+          {% endif %}
+        </span>
+        <span style="font-size:.85rem;color:var(--muted)">{{ mood.notes|default:"—"|truncatechars:50 }}</span>
+        <div class="d-flex gap-2">
+          <a href="{% url 'mentalapp:mood_edit' mood.pk %}" class="btn btn-sm btn-outline-secondary" style="border-radius:8px;font-size:.8rem">Edit</a>
+          <a href="{% url 'mentalapp:mood_delete' mood.pk %}" class="btn btn-sm btn-outline-danger" style="border-radius:8px;font-size:.8rem">Delete</a>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        <div class="es-icon">😶</div>
+        <h5 style="font-family:'Playfair Display',serif;color:var(--deep)">No moods logged yet</h5>
+        <p class="text-muted" style="font-size:.88rem">Start tracking how you feel each day.</p>
+        <a href="{% url 'mentalapp:mood_create' %}" class="btn-sage btn mt-2">Log Your First Mood</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

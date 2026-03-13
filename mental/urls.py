@@ -1,6 +1,6 @@
 # ================================================================
-#  mental/urls.py
-#  Project-level URL configuration for MindWell Django app
+# mental/urls.py
+# Project-level URL configuration for MindWell Django app
 # ================================================================
 
 from django.contrib import admin
@@ -12,6 +12,9 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     # ── DJANGO ADMIN ────────────────────────────────────────────
     path('admin/', admin.site.urls),
+
+    # ── APP URLS ───────────────────────────────────────────────
+    path('', include('mentalapp.urls', namespace='mentalapp')),
 
     # ── PASSWORD RESET FLOW ───────────────────────────────────
     # NOTE: login/logout/register are handled inside mentalapp/urls.py
@@ -35,11 +38,6 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(template_name='mentalapp/password_reset_complete.html'),
         name='password_reset_complete'
     ),
-
-    # ── APP URLS ───────────────────────────────────────────────
-    path('', include('mentalapp.urls', namespace='mentalapp')),
-
-
 ]
 
 # ── MEDIA FILES (DEV ONLY) ─────────────────────────────────
